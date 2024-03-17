@@ -5,7 +5,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGODB_HOST:172.31.9.214
+#MONGODB_HOST:172.31.9.214
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
@@ -36,33 +36,33 @@ VALIDATE $? "Diasbling current Nodejs"
 
 dnf module enable nodejs:18 -y &>> $LOGFILE
 
-VALIDATE $? "CEnabling Nodejs:18"
+VALIDATE $? "Enabling Nodejs:18"
 
  dnf install nodejs -y &>> $LOGFILE
 
 VALIDATE $? "Installing Nodejs:18"
 
-useradd roboshop
+useradd roboshop &>> $LOGFILE
 
-VALIDATE $? "creating roboshop user" &>> $LOGFILE
+VALIDATE $? "creating roboshop user" 
 
 mkdir /app
 
-VALIDATE $? "creating app directory" &>> $LOGFILE
+VALIDATE $? "creating app directory" 
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
 
-VALIDATE $? "Downloading catalogue Application" &>> $LOGFILE
+VALIDATE $? "Downloading catalogue Application" 
 
 cd /app
 
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>> $LOGFILE
 
-VALIDATE $? "Unzipping catalogue" &>> $LOGFILE
+VALIDATE $? "Unzipping catalogue" 
 
-npm install
+npm install &>> $LOGFILE
 
-VALIDATE $? "Installing dependencies" &>> $LOGFILE
+VALIDATE $? "Installing dependencies" 
 
 # use absolute path, becasue catalogue.service exist in that location
 cp /home/centos/roboshop-project/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
@@ -81,15 +81,15 @@ systemctl start catalogue &>> $LOGFILE
 
 VALIDATE $? "Catalogue starting" 
 
- cp /home/centos/roboshop-project/mongo.repo /etc/yum.repos.d/mongo.repo
+ cp /home/centos/roboshop-project/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
-VALIDATE $? "copying mongodb repo" &>> $LOGFILE
+VALIDATE $? "copying mongodb repo" 
 
-dnf install mongodb-org-shell -y
+dnf install mongodb-org-shell -y &>> $LOGFILE
 
-VALIDATE $? "Installing Mongodb client" &>> $LOGFILE
+VALIDATE $? "Installing Mongodb client" 
 
-mongo --host $MONGODB_HOST </app/schema/catalogue.js
+mongo --host 172.31.9.214 </app/schema/catalogue.js &>> $LOGFILE
 
 VALIDATE $? "loading catalogue data into Mongodb"
 
