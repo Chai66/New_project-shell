@@ -45,26 +45,26 @@ VALIDATE $? "starting nginx"
 
 # http://<public-IP>:80  &>> $LOGFILE
 
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* &>> $LOGFILE
 
 VALIDATE $? "removing default website"
 
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFILE
 
 VALIDATE $? "downloading file"
 
-cd /usr/share/nginx/html
+cd /usr/share/nginx/html &>> $LOGFILE
 
 VALIDATE $? "setting path to html directory"
 
-unzip -o /tmp/web.zip
+unzip -o /tmp/web.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping file"
 
-cp /home/centos/New_project-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf
+cp /home/centos/New_project-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $LOGFILE
 
 VALIDATE $? "copy roboshop reverse proxy config"
 
-systemctl restart nginx 
+systemctl restart nginx  &>> $LOGFILE
 
 VALIDATE $? "restarted nginx"
