@@ -30,7 +30,7 @@ VALIDATE(){
         echo -e " $G You Are a root user  $N"
     fi
 
-cp /home/centos/New_project-shell/mongo.service /etc/yum.repos.d/mongo.service &>> $LOGFILE
+cp /home/centos/New_project-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
 VALIDATE $? "Copied MongoDB repo"
 
