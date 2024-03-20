@@ -60,37 +60,40 @@ VALIDATE $? "unzipping shipping"
 
 mvn clean package  &>> $LOGFILE
 
-VALIDATE $? "Installing dependencies"
+VALIDATE $? "Installing packages"
 
 mv target/shipping-1.0.jar shipping.jar
 
-VALIDATE $? "Installing dependencies"
+VALIDATE $? "moving jar file"
 
 # use absolute, because catalogue.service exists there
-cp /home/centos/New_project-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /home/centos/New_project-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
-VALIDATE $? "Copying catalogue service file"
+VALIDATE $? "Copying shipping service file"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "catalogue daemon reload"
+VALIDATE $? "shipping daemon reload"
 
-systemctl enable catalogue &>> $LOGFILE
+systemctl enable shipping &>> $LOGFILE
 
-VALIDATE $? "Enable catalogue"
+VALIDATE $? "Enable shipping"
 
-systemctl start catalogue &>> $LOGFILE
+systemctl start shipping &>> $LOGFILE
 
-VALIDATE $? "Starting catalogue"
+VALIDATE $? "Starting shipping"
 
-cp /home/centos/New_project-shell/mongo.repo /etc/yum.repos.d/mongo.repo
 
-VALIDATE $? "copying mongodb repo"
+dnf install mysql -y &>> $LOGFILE
 
-dnf install mongodb-org-shell -y &>> $LOGFILE
+VALIDATE $? "Installing mysql client"
 
-VALIDATE $? "Installing MongoDB client"
+mysql -h mysql.devopspractice123.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
 
-mongo --host $MONGDB_HOST </app/schema/catalogue.js &>> $LOGFILE
+VALIDATE $? "loading shipping data"
 
-VALIDATE $? "Loading catalouge data into MongoDB"
+systemctl restart shipping
+
+VALIDATE $? "restart shipping "
+
+
