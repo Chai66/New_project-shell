@@ -54,3 +54,5 @@ VALIDATE $? "Enabled Redis"
 systemctl start redis
 
 VALIDATE $? "Started Redis"
+
+ # tail -f /tmp/redis.sh-2024-03-19-20-24-55.log== To check log open another window and press tab after redis.sh
