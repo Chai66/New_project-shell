@@ -14,5 +14,9 @@ do
         INSTANCE_TYPE="t2.micro"
     fi
 
-    aws ec2 run-instances --image-id ami-0f3c7d07486cad139 --instance-type $INSTANCE_TYPE  --security-group-ids sg-0badbf0a0379ce0e9 --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]"
+    aws ec2 run-instances --image-id ami-0f3c7d07486cad139 --instance-type $INSTANCE_TYPE  --security-group-ids sg-0badbf0a0379ce0e9 --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]" --query 'Instances[0].PrivateIpAddress' --output text
 done
+
+# tag specification will give name like mongodb, redis etc while creating ec2 instance 
+# query will fetch private ip address from instance created using cli
+
