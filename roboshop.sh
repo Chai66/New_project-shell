@@ -4,7 +4,7 @@ AMI=ami-0f3c7d07486cad139
 SG_ID=sg-0badbf0a0379ce0e9
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "web")
 ZONE_ID=Z02778233ILV2BIMN8413
-DOMAIN_NAME=devopspractice123.online
+DOMAIN_NAME=devopspilot.online
 
 for i in "${INSTANCES[@]}"
 do
@@ -26,7 +26,7 @@ do
   {
     "Comment": "Creating a record set for cognito endpoint"
     ,"Changes": [{
-      "Action"              : "CREATE"
+      "Action"              : "UPSERT"
       ,"ResourceRecordSet"  : {
         "Name"              : "'$i'.'$DOMAIN_NAME'"
         ,"Type"             : "A"
